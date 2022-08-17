@@ -21,6 +21,14 @@ Book.prototype.toggleReadStatus = function(e) {
    
 }
 
+function deleteCard(e) {
+
+    myLibrary.splice(e.getAttribute('data-remove'), 1)
+    delete_card = e.parentElement.parentElement;
+    delete_card.parentNode.removeChild(delete_card)
+
+}
+
 function addBookToLibrary() {
    
     let form= document.querySelector("form");                        
@@ -59,11 +67,15 @@ function createCard(book) {
     removeBtn.textContent = 'Remove'
     
     readBtn.innerHTML = book.read === true ? 'Read' : 'Not Read';
+    removeBtn.setAttribute('data-remove', myLibrary.indexOf(book))
 
     readBtn.addEventListener('click', function(){
         book.toggleReadStatus(this);
     });
     
+    removeBtn.addEventListener('click', function(){
+        deleteCard(this);
+    });
 
     card_info.appendChild(title);
     card_info.appendChild(author);
