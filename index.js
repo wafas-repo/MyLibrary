@@ -9,6 +9,18 @@ function Book(title, author, num_pages, read) {
 
 }
 
+Book.prototype.toggleReadStatus = function(e) {
+
+    this.read = !this.read
+    
+    if(e.innerText === "Read"){
+        e.innerText = "Not Read";
+    }else{
+        e.innerText= "Read";
+    }
+   
+}
+
 function addBookToLibrary() {
    
     let form= document.querySelector("form");                        
@@ -36,6 +48,7 @@ function createCard(book) {
     let card_info = document.createElement("div");
     let buttons = document.createElement("div");
     let readBtn = document.createElement("button");
+    readBtn.setAttribute("id","readBtn");
     let removeBtn = document.createElement("button");
 
     newBookCard.classList.add('card')
@@ -45,11 +58,12 @@ function createCard(book) {
     pageNum.innerHTML = book.num_pages;
     removeBtn.textContent = 'Remove'
     
-    if (book.read) {
-        readBtn.textContent = 'Read'
-    } else {
-        readBtn.textContent = 'Not Read'
-    }
+    readBtn.innerHTML = book.read === true ? 'Read' : 'Not Read';
+
+    readBtn.addEventListener('click', function(){
+        book.toggleReadStatus(this);
+    });
+    
 
     card_info.appendChild(title);
     card_info.appendChild(author);
@@ -62,12 +76,10 @@ function createCard(book) {
 
     shelf.appendChild(newBookCard)
 
-
 }
 
 document.addEventListener('DOMContentLoaded', () => {
 
     addBookToLibrary();
-    console.log(myLibrary)
     
 });
